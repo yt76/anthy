@@ -1,0 +1,10 @@
+prefix=@prefix@
+exec_prefix=@prefix@
+includedir=@includedir@
+libdir=@libdir@
+
+Name: anthy
+Description: Japanese conversion engine
+Version: @VERSION@
+Cflags: -I${includedir}
+Libs: -L${libdir} -lanthy
