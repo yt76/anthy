@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(src-main/main.c)
+AC_INIT([anthy],[2018],[tabata.yusuke@gmail.com])
 
-AM_INIT_AUTOMAKE(anthy, 2018)
+AM_INIT_AUTOMAKE()
 AM_CONFIG_HEADER(config.h)
 
 dnl Checks for programs.

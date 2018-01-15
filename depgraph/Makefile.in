@@ -300,7 +300,7 @@ DEPWORDS = master.depword noun.depword v.depword \
  fix.depword conjugate.depword \
  conjugate.table
 
-INCLUDES = -I$(top_srcdir)/ -DSRCDIR=\"$(srcdir)\"
+AM_CPPFLAGS = -I$(top_srcdir)/ -DSRCDIR=\"$(srcdir)\"
 CLEANFILES = anthy.dep
 EXTRA_DIST = indepword.txt $(DEPWORDS)
 mkdepgraph_SOURCES = mkdepgraph.c

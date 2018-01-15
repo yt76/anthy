@@ -325,7 +325,7 @@ top_srcdir = @top_srcdir@
 # Files
 noinst_SCRIPTS = 
 CLEANFILES = anthy.*
-INCLUDES = -I$(top_srcdir)/ -DSRCDIR=\"$(srcdir)\"
+AM_CPPFLAGS = -I$(top_srcdir)/ -DSRCDIR=\"$(srcdir)\"
 mkfiledic_SOURCES = mkfiledic.c
 mkfiledic_LDADD = ../src-diclib/libdiclib.la
 

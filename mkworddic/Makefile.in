@@ -327,7 +327,7 @@ top_srcdir = @top_srcdir@
 noinst_SCRIPTS = 
 EXTRA_DICS = base.t extra.t compound.t name.t adjust.t utf8.t tankanji.t words.ld
 ZIPCODE_DICT = zipcode.t
-INCLUDES = -I$(top_srcdir)/
+AM_CPPFLAGS = -I$(top_srcdir)/
 # HOKUTODIC_DIST = hokuto.t
 # You can get it from
 # http://winnie.kuis.kyoto-u.ac.jp/members/ri/hokuto/dic/index.html
