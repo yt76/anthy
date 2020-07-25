@@ -1,5 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT([anthy],[2018],[tabata.yusuke@gmail.com])
+AC_INIT([anthy],[2020],[tabata.yusuke@gmail.com])
+AC_CONFIG_MACRO_DIRS([m4])
 
 AM_INIT_AUTOMAKE()
 AM_CONFIG_HEADER(config.h)
