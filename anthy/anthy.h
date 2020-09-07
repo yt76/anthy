@@ -62,6 +62,8 @@ extern int anthy_set_personality(const char *);
 extern anthy_context_t anthy_create_context(void);
 extern void anthy_reset_context(anthy_context_t);
 extern void anthy_release_context(anthy_context_t);
+extern int anthy_context_set_encoding(anthy_context_t ac, int encoding);
+extern int anthy_set_reconversion_mode(anthy_context_t ac, int mode);
 
 
 
@@ -73,16 +75,14 @@ extern int anthy_get_stat(anthy_context_t, struct anthy_conv_stat *);
 extern int anthy_get_segment_stat(anthy_context_t, int, struct anthy_segment_stat *);
 /* context,nth segment,nth candidate,buffer,buffer len */
 extern int anthy_get_segment(anthy_context_t, int, int, char *, int);
-/* 一文節ごとにコミットする */
+/* commit segments one by one */
 extern int anthy_commit_segment(anthy_context_t, int, int);
 
 /* Prediction */
-#define HAS_ANTHY_PREDICTION
 extern int anthy_set_prediction_string(anthy_context_t, const char*);
 extern int anthy_get_prediction_stat(anthy_context_t, struct anthy_prediction_stat *);
 /* context, nth prediction, buffer, buffer len*/
 extern int anthy_get_prediction(anthy_context_t, int, char*, int);
-#define HAS_ANTHY_COMMIT_PREDICTION
 extern int anthy_commit_prediction(anthy_context_t, int);
 
 /* Etc */
@@ -92,11 +92,12 @@ extern const char *anthy_get_version_string (void);
 typedef void (*anthy_logger)(int level, const char *);
 extern void anthy_set_logger(anthy_logger , int level);
 
-/* experimental and unstable */
+
+/* ancient compatibility kludge */
+#define HAS_ANTHY_PREDICTION
+#define HAS_ANTHY_COMMIT_PREDICTION
 #define HAS_ANTHY_CONTEXT_SET_ENCODING
-extern int anthy_context_set_encoding(anthy_context_t ac, int encoding);
 #define HAS_ANTHY_SET_RECONVERSION_MODE
-extern int anthy_set_reconversion_mode(anthy_context_t ac, int mode);
 
 #ifdef __cplusplus
 }
