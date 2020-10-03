@@ -52,6 +52,7 @@ typedef struct anthy_context *anthy_context_t;
 
 /* Configuration */
 extern int anthy_init(void);
+extern int anthy_init_utf8(void);
 extern void anthy_quit(void);
 extern void anthy_conf_override(const char *, const char *);
 extern int anthy_set_personality(const char *);

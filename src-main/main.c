@@ -104,6 +104,13 @@ anthy_init(void)
   return 0;
 }
 
+/** (API) for convenience */
+int anthy_init_utf8() {
+  int r = anthy_init();
+  default_encoding = ANTHY_UTF8_ENCODING;
+  return r;
+}
+
 /** (API) 全データの解放 */
 void
 anthy_quit(void)
@@ -526,7 +533,7 @@ int
 anthy_context_set_encoding(struct anthy_context *ac, int encoding)
 {
   if (!ac) {
-    return ANTHY_EUC_JP_ENCODING;
+    return default_encoding;
   }
   if (encoding == ANTHY_UTF8_ENCODING ||
       encoding == ANTHY_EUC_JP_ENCODING) {
