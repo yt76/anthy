@@ -1,10 +1,10 @@
 #
-# ¼­½ñ¥Õ¥¡¥¤¥ë¤òÀ¸À®¤¹¤ë¤¿¤á¤Î¥¹¥¯¥ê¥×¥È
+# è¾žæ›¸ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç”Ÿæˆã™ã‚‹ãŸã‚ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
 #
 # ./mkworddic -f dict.args
 # 
-# ÊÌ¤Î¥¹¥¯¥ê¥×¥È¤«¤é¤³¤Î¥Õ¥¡¥¤¥ë¤òecho¤äcat¡¢sedÅù¤ò
-# ¶î»È¤·¤ÆÀ¸À®¤¹¤ë¤³¤È¤âÁÛÄê
+# åˆ¥ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆã‹ã‚‰ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’echoã‚„catã€sedç­‰ã‚’
+# é§†ä½¿ã—ã¦ç”Ÿæˆã™ã‚‹ã“ã¨ã‚‚æƒ³å®š
 #
 set_input_encoding eucjp
 read @top_srcdir@/alt-cannadic/gcanna.ctd
