@@ -60,7 +60,6 @@ struct condition {
   int ask;
   int quiet;
   int miss_only;
-  int use_utf8;
   int print_morph;
 };
 
@@ -108,7 +107,7 @@ log_print(int lv, const char *msg)
 }
 
 static anthy_context_t
-init_lib(int use_utf8)
+init_lib()
 {
   anthy_context_t ac;
   /* 既にインストールされているファイルの影響を受けないようにする */
@@ -116,18 +115,14 @@ init_lib(int use_utf8)
   anthy_conf_override("HOME", TEST_HOME);
   anthy_conf_override("DIC_FILE", "../mkanthydic/anthy.dic");
   anthy_set_logger(log_print, 0);
-  if (anthy_init()) {
+  if (anthy_init_utf8()) {
     printf("failed to init anthy\n");
     exit(0);
   }
   anthy_set_personality("");
 
   ac = anthy_create_context();
-  if (use_utf8) {
-    anthy_context_set_encoding(ac, ANTHY_UTF8_ENCODING);
-  } else {
-    anthy_context_set_encoding(ac, ANTHY_EUC_JP_ENCODING);
-  }
+  anthy_context_set_encoding(ac, ANTHY_UTF8_ENCODING);
   return ac;
 }
 
@@ -169,8 +164,6 @@ parse_args(struct condition *cond, int argc, char **argv)
 	cond->miss_only = 1;
       } else if (!strcmp(arg, "print-morph")) {
 	cond->print_morph = 1;
-      } else if (!strcmp(arg, "utf8")) {
-	cond->use_utf8 = 1;
       }
 
       if (i + 1 < argc) {
@@ -365,7 +358,6 @@ init_condition(struct condition *cond)
   cond->quiet = 0;
   cond->ask = 0;
   cond->miss_only = 0;
-  cond->use_utf8 = 0;
   cond->print_morph = 0;
 }
 
@@ -396,7 +388,7 @@ main(int argc,char **argv)
     return 0;
   }
   
-  ac = init_lib(cond.use_utf8);
+  ac = init_lib();
 
   /* ファイルを読んでいくループ */
   while (!read_file(fp, &cur_input)) {
