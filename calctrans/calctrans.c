@@ -1,10 +1,10 @@
 /*
- * Ê¸Àá¤ÎÁ«°Ü¹ÔÎó¤òºîÀ®¤¹¤ë
+ * æ–‡ç¯€ã®é·ç§»è¡Œåˆ—ã‚’ä½œæˆã™ã‚‹
  *
- * morphological-analyzer¤Î½ĞÎÏ¤Ë¤Ï²¼µ­¤Î¥Ş¡¼¥¯¤¬ÉÕ¤±¤Æ¤¢¤ë
- * ~ ¸õÊä¤Î¸í¤ê
- * ! Ê¸ÀáÄ¹¤Î¸í¤ê
- * ^ Ê£¹çÊ¸Àá¤Î2¤Ä¤á°Ê¹ß¤ÎÍ×ÁÇ
+ * morphological-analyzerã®å‡ºåŠ›ã«ã¯ä¸‹è¨˜ã®ãƒãƒ¼ã‚¯ãŒä»˜ã‘ã¦ã‚ã‚‹
+ * ~ å€™è£œã®èª¤ã‚Š
+ * ! æ–‡ç¯€é•·ã®èª¤ã‚Š
+ * ^ è¤‡åˆæ–‡ç¯€ã®2ã¤ã‚ä»¥é™ã®è¦ç´ 
  *
  * generate transition matrix
  *
@@ -60,25 +60,25 @@ struct sentence_info {
   struct segment_info segs[MAX_SEGMENT];
 };
 
-/* ³ÎÎ¨¤Î¥Æ¡¼¥Ö¥ë */
+/* ç¢ºç‡ã®ãƒ†ãƒ¼ãƒ–ãƒ« */
 struct input_info {
-  /* ¸õÊäÁ´ÂÎ¤ÎÁÇÀ­ */
+  /* å€™è£œå…¨ä½“ã®ç´ æ€§ */
   struct input_set *raw_cand_is;
   struct input_set *cand_is;
-  /* Ê¸Àá¤ÎÁÇÀ­ */
+  /* æ–‡ç¯€ã®ç´ æ€§ */
   struct input_set *raw_seg_is;
   /**/
   struct input_set *trans_is;
   struct input_set *seg_struct_is;
   struct input_set *yomi_is;
   struct input_set *seg_len_is;
-  /* ¼«Î©¸ì¤ÎÁ´Ê¸¸¡º÷ÍÑ¾ğÊó */
+  /* è‡ªç«‹èªã®å…¨æ–‡æ¤œç´¢ç”¨æƒ…å ± */
   struct corpus *indep_corpus;
 
   /**/
   struct array missed_cand_features;
 
-  /* ÆşÎÏ¤µ¤ì¤¿ÎãÊ¸¤ÎÎÌ¤Ë´Ø¤¹¤ë¾ğÊó */
+  /* å…¥åŠ›ã•ã‚ŒãŸä¾‹æ–‡ã®é‡ã«é–¢ã™ã‚‹æƒ…å ± */
   int nr_sentences;
   int nr_connections;
 };
@@ -106,7 +106,7 @@ init_input_info(void)
   return m;
 }
 
-/* features=1,2,3,,¤Î·Á¼°¤òparse¤¹¤ë */
+/* features=1,2,3,,ã®å½¢å¼ã‚’parseã™ã‚‹ */
 static void
 parse_features(struct array *features, char *s)
 {
@@ -161,7 +161,7 @@ compare_cand_feature_array(struct array *a1, struct array *a2)
   return r;
 }
 
-/* ¼«Î©¸ì¤Î¹Ô¤òparse¤¹¤ë */
+/* è‡ªç«‹èªã®è¡Œã‚’parseã™ã‚‹ */
 static void
 parse_indep(struct input_info *m, struct sentence_info *sinfo,
 	    char *line, char *buf, int error_class)
@@ -182,23 +182,23 @@ parse_indep(struct input_info *m, struct sentence_info *sinfo,
     set_hash(sinfo, error_class, line[0], atoi(s));
   }
 
-  /* ²Ã»»¤¹¤ë */
+  /* åŠ ç®—ã™ã‚‹ */
   if (error_class) {
     if (line[0] == '~') {
-      /* ¸í¤Ã¤¿¸õÊä¤Î¹½Â¤¤òÊİÂ¸ */
+      /* èª¤ã£ãŸå€™è£œã®æ§‹é€ ã‚’ä¿å­˜ */
       m->missed_cand_features = features;
     }
     if (line[0] == '!') {
-      /* Ê¸ÀáÄ¹¤Î¸í¤ê */
+      /* æ–‡ç¯€é•·ã®èª¤ã‚Š */
       input_set_set_features(m->raw_seg_is, features.f, features.len, -weight);
     }
   } else {
-    /* ÀÜÂ³¹ÔÎó */
+    /* æ¥ç¶šè¡Œåˆ— */
     input_set_set_features(m->raw_seg_is, features.f, features.len, weight);
-    /* ¸õÊä¤Î¹½Â¤ */
+    /* å€™è£œã®æ§‹é€  */
     if (m->missed_cand_features.len != 0 &&
 	compare_cand_feature_array(&features, &m->missed_cand_features)) {
-      /* Àµ²ò¤È°Û¤Ê¤ë¹½Â¤¤Ê¤éÊ¬Êì¤Ë²Ã»» */
+      /* æ­£è§£ã¨ç•°ãªã‚‹æ§‹é€ ãªã‚‰åˆ†æ¯ã«åŠ ç®— */
       add_seg_struct_info(m, &m->missed_cand_features, -weight);
     }
     m->missed_cand_features.len = 0;
@@ -217,7 +217,7 @@ init_sentence_info(struct sentence_info *sinfo)
   }
 }
 
-/* °ì¤Ä¤ÎÊ¸¤òÆÉ¤ó¤À¤È¤­¤ËÁ´Ê¸¸¡º÷ÍÑ¤Î¥Ç¡¼¥¿¤òºî¤ë
+/* ä¸€ã¤ã®æ–‡ã‚’èª­ã‚“ã ã¨ãã«å…¨æ–‡æ¤œç´¢ç”¨ã®ãƒ‡ãƒ¼ã‚¿ã‚’ä½œã‚‹
  */
 static void
 complete_sentence_info(struct input_info *m, struct sentence_info *sinfo)
@@ -367,7 +367,7 @@ word_fl_filter(struct feature_list *fl, int pw, int nw)
 {
   (void)pw;
   if (anthy_feature_list_has_yomi(fl) && nw > 1 && nw > pw * 2) {
-    /* ¸íÊÑ´¹¤Ç¤¢¤Ã¤¿³ä¹ç¤¬½½Ê¬¤ËÂç¤­¤¤¤È¤­ */
+    /* èª¤å¤‰æ›ã§ã‚ã£ãŸå‰²åˆãŒååˆ†ã«å¤§ãã„ã¨ã */
     return 0;
   }
   return 1;
@@ -403,7 +403,7 @@ extract_is(struct input_set *src_is, struct input_set *dst_is, int type,
   }
 }
 
-/* ÊÑ´¹·ë²Ì¤«¤é³ÎÎ¨¤Î¥Æ¡¼¥Ö¥ë¤òºî¤ë */
+/* å¤‰æ›çµæœã‹ã‚‰ç¢ºç‡ã®ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ä½œã‚‹ */
 static void
 proc_corpus(int nr_fn, char **fns, FILE *ofp)
 {
@@ -416,9 +416,9 @@ proc_corpus(int nr_fn, char **fns, FILE *ofp)
     read_file(iinfo, fns[i]);
   }
 
-  /* Á´Ê¸¸¡º÷¤Î¥Ç¡¼¥¿¥Ù¡¼¥¹¤òºî¤ë */
+  /* å…¨æ–‡æ¤œç´¢ã®ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’ä½œã‚‹ */
   corpus_build(iinfo->indep_corpus);
-  /* ³ÎÎ¨¤ò½ĞÎÏ¤¹¤ë */
+  /* ç¢ºç‡ã‚’å‡ºåŠ›ã™ã‚‹ */
   extract_is(iinfo->raw_cand_is, iinfo->cand_is, FL_CAND_FEATURES, NULL);
   extract_is(iinfo->raw_seg_is, iinfo->seg_struct_is, FL_SEG_STRUCT_FEATURES, NULL);
   extract_is(iinfo->raw_seg_is, iinfo->trans_is, FL_SEG_TRANS_FEATURES, NULL);
@@ -427,7 +427,7 @@ proc_corpus(int nr_fn, char **fns, FILE *ofp)
   extract_is(iinfo->raw_seg_is, iinfo->seg_len_is, FL_SEG_LEN_FEATURES, NULL);
   dump_input_info(ofp, iinfo);
 
-  /* Åı·×¾ğÊó */
+  /* çµ±è¨ˆæƒ…å ± */
   fprintf(stderr, " %d sentences\n", iinfo->nr_sentences);
   fprintf(stderr, " %d connections\n", iinfo->nr_connections);
   fprintf(stderr, " %d segments\n", iinfo->nr_connections - iinfo->nr_sentences);
@@ -459,7 +459,7 @@ main(int argc, char **argv)
     }
   }
   if (ofp) {
-    /* ¥³¡¼¥Ñ¥¹¤«¤é¥Æ¥­¥¹¥È·Á¼°¤Î¼­½ñ¤òºî¤ë */
+    /* ã‚³ãƒ¼ãƒ‘ã‚¹ã‹ã‚‰ãƒ†ã‚­ã‚¹ãƒˆå½¢å¼ã®è¾æ›¸ã‚’ä½œã‚‹ */
     printf(" -- generating dictionary in text form\n");
     proc_corpus(nr_input, input_files, ofp);
     fclose(ofp);
