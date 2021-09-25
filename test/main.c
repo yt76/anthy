@@ -107,7 +107,7 @@ log_print(int lv, const char *msg)
 }
 
 static anthy_context_t
-init_lib()
+init_lib(void)
 {
   anthy_context_t ac;
   /* 既にインストールされているファイルの影響を受けないようにする */
@@ -214,16 +214,13 @@ print_run_env(void)
 static void
 sum_up(struct res_db *db, struct conv_res *cr)
 {
-  int is_split;
   struct res_stat *rs;
   cr->used = 1;
   db->total ++;
   if (cr->res_str[0] == '|') {
     rs = &db->split;
-    is_split = 1;
   } else {
     rs = &db->res;
-    is_split = 0;
   }
   if (cr->check == CHK_OK) {
     rs->ok ++;
@@ -312,7 +309,7 @@ ask_results(struct res_db *db)
     if (cr->check == CHK_UNKNOWN && cr->used == 1) {
       char buf[256];
       printf("%s -> %s (y/n/d/q)\n", cr->src_str, cr->res_str);
-      fgets(buf, 256, stdin);
+      (void)fgets(buf, 256, stdin);
       if (buf[0] == 'y') {
 	cr->check = CHK_OK;
       } else if (buf[0] == 'n') {
