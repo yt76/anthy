@@ -163,11 +163,11 @@
 
 ;; From skk-macs.el From viper-util.el.  Welcome!
 (defmacro anthy-deflocalvar (var default-value &optional documentation)
-  (` (progn
-       (defvar (, var) (, default-value)
-	 (, (format "%s\n\(buffer local\)" documentation)))
-       (make-variable-buffer-local '(, var))
-       )))
+  `(progn
+       (defvar ,var ,default-value
+	 ,(format "%s\n\(buffer local\)" documentation))
+       (make-variable-buffer-local ',var)
+       ))
 
 ;; buffer local variables
 (anthy-deflocalvar anthy-context-id nil "コンテキストのid")
